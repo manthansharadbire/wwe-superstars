@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
-import WweSuperstar from './models/WweSuperstar.js'
+import {getWweSuperstar,postWweSuperstar,getWweSuperstarById} from './controllers/wwe-superstars.js'
+import { health } from './controllers/health.js';
 
 const app = express();
 app.use(express.json());
@@ -16,36 +17,13 @@ const connectDB = async()=>{
     }
 }
 
-app.get("/health", (req,res)=>{
-    res.status(200).json({meassage:"Server is Healthy !"})
-});
+app.get("/health", health);
 
-app.get("/wwe-superstars", (req,res)=>{
+app.get("/wwe-superstars/:id",getWweSuperstarById);
 
-    const WweSuperstar = WweSuperstar.find();
-    return res.status(200).json({
-        success:true,
-        data:WweSuperstar,
-        message:"WWE Superstar fetched successfully"
-    })
-});
+app.get("/wwe-superstars",getWweSuperstar );
 
-app.post("/wwe-superstars",async(req,res)=>{
-
-    const {wwename, height, finisher, aka, thumbnail} = req.body;
-
-    const newWweSuperstar = new WweSuperstar({
-        wwename, height, finisher, aka, thumbnail
-    });
-
-    const savedWweSuperstars = await newWweSuperstar.save();
-    
-    return res.status(201).json({
-        success:true,
-        data:savedWweSuperstars,
-        message:"WWE Superstar created successfully"
-    })
-})
+app.post("/wwe-superstars",postWweSuperstar)
 
 const PORT = process.env.PORT || 5002;
 
