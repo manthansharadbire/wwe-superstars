@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
-import {getWweSuperstar,postWweSuperstar,getWweSuperstarById} from './controllers/wwe-superstars.js'
+import {getWweSuperstar,postWweSuperstar,getWweSuperstarById ,deleteWwesuperstarById} from './controllers/wwe-superstars.js'
 import { health } from './controllers/health.js';
 
 const app = express();
@@ -20,6 +20,8 @@ const connectDB = async()=>{
 app.get("/health", health);
 
 app.get("/wwe-superstars/:id",getWweSuperstarById);
+
+app.delete("/wwe-superstars/:id", deleteWwesuperstarById);
 
 app.get("/wwe-superstars",getWweSuperstar );
 
