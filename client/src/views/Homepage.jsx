@@ -16,8 +16,8 @@ function Homepage() {
   }, []);
 
   return (
-    <div>
-      <h1>This is Homepage</h1>
+    <div className="flex flex-wrap justify-center">
+
       {wweSuperstars.map((wrestler, i) => {
         const { _id, wwename, height, finisher, aka, thumbnail } = wrestler;
         return (
