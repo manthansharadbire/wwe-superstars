@@ -19,6 +19,23 @@ function Homepage() {
     thumbnail: "",
   });
 
+  const addWweSuperstar = async()=>{
+    try{
+  const response = await axios.post( `${import.meta.env.VITE_API_URI}/wwe-superstars`,{
+    wwename: newSuperstar.wwename,
+    aka: newSuperstar.aka,
+    finisher: newSuperstar.finisher,
+    thumbnail: newSuperstar.thumbnail,
+  })
+  toast.success(response.data.message);
+  loadWweSuperstars();
+  setIsModalOpen(false);
+  setNewSuperstar("")
+  
+  }catch(e){
+    toast.error(e.response.data.message);
+  }}
+
   const loadWweSuperstars = async () => {
     const response = await axios.get(
       `${import.meta.env.VITE_API_URI}/wwe-superstars`
@@ -119,9 +136,12 @@ function Homepage() {
               <button className="border bg-red-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white">
                 Cancel
               </button>
-              <button className="border bg-green-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white">
+
+              <button className="border bg-green-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white"
+               onClick={addWweSuperstar}>
                 Submit
               </button>
+
             </div>
           </div>
         </Modal>

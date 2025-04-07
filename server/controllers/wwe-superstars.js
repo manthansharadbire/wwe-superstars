@@ -59,6 +59,39 @@ const deleteWwesuperstarById = async (req, res) => {
 const postWweSuperstar = async (req, res) => {
   const { wwename, height, finisher, aka, thumbnail } = req.body;
 
+  if(!wwename){
+    return res.status(400).json({
+      success:false,
+      message:"Superstar name is required",
+      data :"null"
+    })
+  }
+
+  if(!aka){
+    return res.status(400).json({
+      success:false,
+      message:"Superstar's nick-name is required",
+      data :"null"
+    })
+  }
+
+  if(!finisher){
+    return res.status(400).json({
+      success:false,
+      message:"Superstar's finisher is required",
+      data :"null"
+    })
+  }
+
+  if(!thumbnail){
+    return res.status(400).json({
+      success:false,
+      message:"WWE Superstar's image is required",
+      data :"null"
+    })
+  }
+ 
+
   const newWweSuperstar = new WweSuperstar({
     wwename,
     height,
