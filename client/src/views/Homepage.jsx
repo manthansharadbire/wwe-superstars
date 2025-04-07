@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import WweSuperstar from "../components/WweSuperstar.jsx";
+import Modal from "../components/Modal.jsx";
 
 function Homepage() {
   const [wweSuperstars, setWweSuperstars] = useState([]);
@@ -32,6 +33,7 @@ function Homepage() {
           />
         );
       })}
+      <Modal/>
     </div>
   );
 }
