@@ -6,6 +6,7 @@ import { Plus as PlusIcon } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 import Input from "../components/Input.jsx";
 
+
 function Homepage() {
   const [wweSuperstars, setWweSuperstars] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,22 +20,25 @@ function Homepage() {
     thumbnail: "",
   });
 
-  const addWweSuperstar = async()=>{
-    try{
-  const response = await axios.post( `${import.meta.env.VITE_API_URI}/wwe-superstars`,{
-    wwename: newSuperstar.wwename,
-    aka: newSuperstar.aka,
-    finisher: newSuperstar.finisher,
-    thumbnail: newSuperstar.thumbnail,
-  })
-  toast.success(response.data.message);
-  loadWweSuperstars();
-  setIsModalOpen(false);
-  setNewSuperstar("")
-  
-  }catch(e){
-    toast.error(e.response.data.message);
-  }}
+  const addWweSuperstar = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URI}/wwe-superstars`,
+        {
+          wwename: newSuperstar.wwename,
+          aka: newSuperstar.aka,
+          finisher: newSuperstar.finisher,
+          thumbnail: newSuperstar.thumbnail,
+        }
+      );
+      toast.success(response.data.message);
+      loadWweSuperstars();
+      setIsModalOpen(false);
+      setNewSuperstar("");
+    } catch (e) {
+      toast.error(e.response.data.message);
+    }
+  };
 
   const loadWweSuperstars = async () => {
     const response = await axios.get(
@@ -61,16 +65,16 @@ function Homepage() {
 
       <div className="flex flex-wrap justify-center">
         {wweSuperstars.map((wrestler, i) => {
-          const { _id, wwename, height, finisher, aka, thumbnail } = wrestler;
+          const { _id, wwename, finisher, aka, thumbnail, loadWweSuperstars } = wrestler;
           return (
             <WweSuperstar
               key={i}
               _id={_id}
               wwename={wwename}
-              height={height}
               finisher={finisher}
               aka={aka}
               thumbnail={thumbnail}
+              loadWweSuperstars={loadWweSuperstars}
             />
           );
         })}
@@ -82,6 +86,9 @@ function Homepage() {
           }}
         >
           <div>
+            <p className="text-white text-xl mb-2 font-bold">
+              Create your own WWE Superstar Card
+            </p>
             <div className="flex-wrap">
               <Input
                 type="text"
@@ -127,21 +134,24 @@ function Homepage() {
                 className="text-black"
               />
 
-              {newSuperstar.thumbnail ?  (
-                <img src={newSuperstar.thumbnail}
-                alt = "WWE Superstar"
-                className="w-full rounded-md h-[220px] mb-2"/> 
-              ): null}
+              {newSuperstar.thumbnail ? (
+                <img
+                  src={newSuperstar.thumbnail}
+                  alt="WWE Superstar"
+                  className="w-full rounded-md h-[220px] mb-2"
+                />
+              ) : null}
 
-              <button className="border bg-red-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white">
+              <button className="border bg-red-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white" onClick={()=> setIsModalOpen(false)}>
                 Cancel
               </button>
 
-              <button className="border bg-green-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white"
-               onClick={addWweSuperstar}>
+              <button
+                className="border bg-green-500 py-2 px-5 border-none m-2 rounded-lg shadow-lg text-white"
+                onClick={addWweSuperstar}
+              >
                 Submit
               </button>
-
             </div>
           </div>
         </Modal>
